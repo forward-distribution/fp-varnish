@@ -1,0 +1,9 @@
+version: '3.8'
+services:
+  varnish:
+    container_name: fp-varnish
+    build: .
+    volumes:
+      - ./config.yaml:/etc/varnish/source/config.yaml:ro
+    ports:
+      - "8080:8080"

@@ -164,15 +164,6 @@ async function startVarnishCli () {
       ]
     }).start()
   }
-
-  if (config.prometheusListenAddress) {
-    processes.register({
-      name: 'prometheus',
-      logToStdErrWithPrefix: true,
-      command: '/usr/local/bin/prometheus_varnish_exporter',
-      args: ['-web.listen-address', config.prometheusListenAddress, '-raw']
-    }).start()
-  }
 }
 
 const cmd = process.argv.slice(2)

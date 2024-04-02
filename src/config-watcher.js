@@ -81,7 +81,6 @@ const configOutputDirectory = path.resolve(configSourceDirectory, arg['--config-
 const defaultValues = {
   listenAddress: arg['--listen'] || `0.0.0.0:8080,HTTP`,
   adminListenAddress: `0.0.0.0:2000`,
-  prometheusListenAddress: `0.0.0.0:9131`,
   storage: arg['--storage'] || `default,512m`,
   varnishRuntimeParameters: [],
   adminSecretFile: path.resolve(configOutputDirectory, 'secret'),
