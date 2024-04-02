@@ -1,8 +1,8 @@
 version: '3.8'
 services:
   varnish:
+    image: forwardpublishing/fp-varnish:v1.0.0
     container_name: fp-varnish
-    build: .
     volumes:
       - ./config.yaml:/etc/varnish/source/config.yaml:ro
     ports:

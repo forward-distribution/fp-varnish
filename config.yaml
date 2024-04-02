@@ -1,27 +1,26 @@
 clusters:
-- name: fpDelivery
-  address: host.docker.internal:9010
-# - name: redirects
-#   address: redirects:3000
+- name: delivery
+  address: delivery:9010
+- name: redirects
+  address: redirects:3000
 - name: externalScripts
   address: nca.xoqiya.han-solo.net:80
 parameters:
   default_ttl: 600
 hooks:
   vclRecvStart: |
-    std.log("Received request: " + req.method + " " + req.url);
-  #   if (req.restarts == 0) {
-  #       set req.http.Orig-Url = req.url;
-  #       set req.url = "/api/probe-bmg/mz" + regsub(req.url, "/$", "");
-  #       set req.backend_hint = redirects.backend();
-  #       return (hash);
-  #   }
-  vclRecvEnd: |
+    if (req.restarts == 0) {
+        set req.http.Orig-Url = req.url;
+        set req.url = "/api/probe-bmg/sao" + regsub(req.url, "/$", "");
+        set req.backend_hint = redirects.backend();
+        return (hash);
+    }
+  vclDeliverStart: |
     if (req.url ~ "^/external-scripts/") {
         set req.url = regsub(req.url, "^/external-scripts", "");
         set req.backend_hint = externalScripts.backend();
+        return;
     }
-  vclDeliverStart: |
     if (req.restarts == 0) {
         if (resp.status == 301) {
             return(deliver);
@@ -29,12 +28,11 @@ hooks:
             return (deliver);
         } else {
             set req.url = req.http.Orig-Url;
-            set req.backend_hint = fpDelivery.backend();
+            set req.backend_hint = delivery.backend();
             return (restart);
         }
     }
   vclBackendFetchStart: |
-    std.log("Fetching from backend: " + bereq.method + " " + bereq.url);
     if (bereq.backend == externalScripts.backend()) {
         set bereq.http.Host = "nca.xoqiya.han-solo.net";
     }
