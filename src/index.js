@@ -160,6 +160,7 @@ async function startVarnishCli () {
       args: [
         '-t', 'off',
         '-q', 'not VCL_Log:nolog',
+        '-j',
         '-F', '{"@timestamp":"%{%Y-%m-%dT%H:%M:%S%z}t","method":"%m","url":"%U","remote_ip":"%h","x_forwarded_for":"%{X-Forwarded-For}i","cache":"%{Varnish:handling}x","bytes":"%b","duration_usec":"%D","status":"%s","request":"%r","ttfb":"%{Varnish:time_firstbyte}x","referrer":"%{Referrer}i","user_agent":"%{User-agent}i"}'
       ]
     }).start()
