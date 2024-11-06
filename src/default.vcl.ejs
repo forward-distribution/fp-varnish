@@ -177,6 +177,8 @@ sub vcl_backend_fetch {
 # Handle the HTTP request coming from our backend
 # Called after the response headers has been successfully retrieved from the backend.
 sub vcl_backend_response {
+  <%- config.hooks?.vclBackendResponse || '' %>
+
   if (bereq.uncacheable) { return (deliver); }
 
   # We don't use any cookies, remove them to prevent security issues
