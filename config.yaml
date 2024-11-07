@@ -39,3 +39,7 @@ hooks:
     if (bereq.backend == externalScripts.backend()) {
         set bereq.http.Host = "nca.xoqiya.han-solo.net";
     }
+  vclBackendResponse: |
+    if (bereq.backend == externalScripts.backend()) {
+        set beresp.ttl = 5m;
+    }
