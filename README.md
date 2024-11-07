@@ -1,5 +1,8 @@
 # [Varnish](https://github.com/livingdocsIO/dockerfile-varnish) [![](https://img.shields.io/docker/automated/livingdocs/varnish.svg)](https://hub.docker.com/r/livingdocs/varnish)
 
+> [!IMPORTANT]  
+> Forked from Livingdocs. For full context go there
+
 A varnish setup with config hot reloading, ready to use in kubernetes and dockerized environments.
 
 It includes:
@@ -18,7 +21,7 @@ How this is different than other varnish operators for Kubernetes:
 ### Build
 
 ```sh
-docker build -t livingdocs/varnish .
+docker build --platform=linux/amd64 -t forwardpublishing/fp-varnish:v1.2.3 . 
 ```
 
 ### Run

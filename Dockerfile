@@ -1,13 +1,13 @@
 FROM node:20-alpine
 WORKDIR /etc/varnish
-ENV VARNISH_VERSION=7.4.2-r0
+ENV VARNISH_VERSION=7.5.0-r0
 
 RUN echo 'Install utils that stay in the image' \
   && apk add --no-cache ca-certificates bind-tools nano curl tini \
   && echo 'Install varnish' \
-  && apk add --no-cache varnish=$VARNISH_VERSION --repository http://dl-3.alpinelinux.org/alpine/edge/main/ \
+  && apk add --no-cache varnish=$VARNISH_VERSION --repository http://dl-3.alpinelinux.org/alpine/v3.21/main/ \
   && echo 'Install varnish-modules' \
-  && apk add --virtual varnish-deps --no-cache git libgit2-dev automake varnish-dev=$VARNISH_VERSION autoconf libtool py-docutils make --repository http://dl-3.alpinelinux.org/alpine/edge/main/ \
+  && apk add --virtual varnish-deps --no-cache git libgit2-dev automake varnish-dev=$VARNISH_VERSION autoconf libtool py-docutils make --repository http://dl-3.alpinelinux.org/alpine/v3.21/main/ \
   && git clone https://github.com/varnish/varnish-modules.git /varnish-modules --depth='1' --branch='7.3' --single-branch \
   && cd /varnish-modules && ./bootstrap && ./configure && make && make install && cd / \
   && echo 'Remove all build deps' \
