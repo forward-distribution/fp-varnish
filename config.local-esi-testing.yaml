@@ -1,0 +1,53 @@
+clusters:
+- name: delivery
+  address: host.docker.internal:9010
+- name: externalScripts
+  address: host.docker.internal:4444
+# not needed for ESI integration local testing
+# - name: redirects
+#   address: host.docker.internal:3000
+
+# LIVINGDOCS DEFAULTS, affect ALL requests from Varnish (ESI included)
+# parameters:
+#   default_ttl: 60
+#   default_grace: 86400 
+hooks:
+  vclRecvEnd: |
+    if (req.url ~ "^/external-scripts/") {
+      set req.url = regsub(req.url, "^/external-scripts", "");
+      set req.backend_hint = externalScripts.backend();
+      return (hash);
+    }
+  vclBackendFetchStart: |
+    if (bereq.backend == externalScripts.backend()) {
+      set bereq.http.Host = "host.docker.internal:4444";
+    }
+  vclBackendResponse: |
+    if (bereq.backend == externalScripts.backend()) {
+        set beresp.ttl = 5s;
+        set beresp.grace = 10s;
+    }
+
+  # other hooks not needed for ESI integration local testing
+  #
+  # vclRecvStart: |
+  #   if (req.restarts == 0) {
+  #       set req.http.Orig-Url = req.url;
+  #       set req.url = "/api/probe-bmg/sao" + regsub(req.url, "/$", "");
+  #       set req.backend_hint = redirects.backend();
+  #       return (hash);
+  #   }
+  # vclDeliverStart: |
+  #   if (req.restarts == 0) {
+  #       if (resp.status == 301) {
+  #           return (deliver);
+  #       } else if (resp.status == 302) {
+  #           return (deliver);
+  #       } else if (resp.status == 410) {
+  #           return (deliver);
+  #       } else {
+  #           set req.url = req.http.Orig-Url;
+  #           set req.backend_hint = delivery.backend();
+  #           return (restart);
+  #       }
+  #   }

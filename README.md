@@ -3,6 +3,9 @@
 > [!IMPORTANT]  
 > Forked from Livingdocs. For full context go there
 
+> [!TIP]
+> For local ESI testing see: local-esi-testing/README.md
+
 A varnish setup with config hot reloading, ready to use in kubernetes and dockerized environments.
 
 It includes:

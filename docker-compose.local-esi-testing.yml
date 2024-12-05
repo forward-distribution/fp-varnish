@@ -1,0 +1,9 @@
+version: '3.8'
+services:
+  varnish:
+    image: forwardpublishing/fp-varnish:v1.1.4
+    container_name: fp-varnish-esi-tests
+    volumes:
+      - ./config.local-esi-testing.yaml:/etc/varnish/source/config.yaml:ro
+    ports:
+      - "1111:8080"
