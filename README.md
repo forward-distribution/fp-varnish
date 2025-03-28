@@ -1,7 +1,7 @@
 # [Varnish](https://github.com/livingdocsIO/dockerfile-varnish) [![](https://img.shields.io/docker/automated/livingdocs/varnish.svg)](https://hub.docker.com/r/livingdocs/varnish)
 
 > [!IMPORTANT]  
-> Forked from Livingdocs. For full context go there
+> Archived in favor of a private repository - https://github.com/forward-distribution/fp-dockerfile-varnish/tree/esi-varnish
 
 > [!TIP]
 > For local ESI testing see: local-esi-testing/README.md
